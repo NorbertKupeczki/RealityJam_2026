@@ -1,11 +1,14 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class ChallengeManager : MonoSingleton<ChallengeManager>
 {
     public static event Action<float> OnSystemIntegrityChanged;
     public static event Action<bool> OnTermialReset;
+    public static event Action<string> OnNewChallenge;
     public static event Action OnChallengeSuccessful;
     public static event Action OnMainframeBroken;
 
@@ -13,6 +16,12 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
     [SerializeField] private float m_SystemIntegrity;
     [SerializeField] private float m_DegradationRate;
     [SerializeField] private float m_ChallengeSpawnTimer;
+    [Header("Audio SFX")]
+    [SerializeField] private AudioClip m_SuccessfulReset;
+    [SerializeField] private AudioClip m_SuccessfulChallenge;
+    [SerializeField] private AudioClip m_FailedChallenge;
+    [SerializeField] private AudioClip m_NewChallenge;
+    [SerializeField] private AudioClip m_EndOfGame;
 
     private Queue<uint> m_ChallengeQueue;
     private bool m_IsChallengeActive;
@@ -38,6 +47,8 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
 
     private void Update()
     {
+        DOTween.SetTweensCapacity(4000, 100);
+
         ApplyDegradation();
         TrySpawnNewChallenge();
     }
@@ -50,6 +61,7 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
         if (TryTerminalId(terminalId))
         {
             OnTermialReset?.Invoke(true);
+            AudioManager.PlayOneShotAudio(Instance.m_SuccessfulReset, PlayerManager.Instance.gameObject.transform.position);
             if (Instance.m_ChallengeQueue.Count > 0) { return; }
             ChallengeCleared();
             return;
@@ -66,8 +78,8 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
     }
 
     private static void GenerateChallenge(int difficulty)
-    {
-        Debug.Log("New Challenge");
+    { 
+        AudioManager.PlayOneShotAudio(Instance.m_NewChallenge, PlayerManager.Instance.gameObject.transform.position);
         Instance.m_ChallengeQueue = new();
 
         for (int i = 0; i < difficulty; ++i)
@@ -81,10 +93,18 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
         }
         Instance.m_IsChallengeActive = true;
 
+        StringBuilder sb = new();
+        int count = Instance.m_ChallengeQueue.Count;
+
         foreach(var id in Instance.m_ChallengeQueue)
         {
-            Debug.Log(id + 1);
+            --count;
+            sb.Append(id+1);
+            if (count < 1) { break; }
+            sb.Append(", ");
         }
+
+        OnNewChallenge?.Invoke(sb.ToString());
     }
 
     private static void ChallengeCleared()
@@ -99,6 +119,7 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
     private static void ChallengeFailed()
     {
         OnTermialReset?.Invoke(false);
+        AudioManager.PlayOneShotAudio(Instance.m_FailedChallenge, PlayerManager.Instance.gameObject.transform.position);
         Instance.m_DegradationRate += DEGRADATION_INCREASE;
 
         SetChallengeSpawnTimer(CHALLENGE_FAILURE_DELAY);
@@ -118,12 +139,12 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
 
         if (Instance.m_SystemIntegrity > 0.0f)
         {
-            OnSystemIntegrityChanged?.Invoke(Instance.m_SystemIntegrity);
+            OnSystemIntegrityChanged?.Invoke(Instance.m_SystemIntegrity / MAX_INTEGRITY);
             return;
         }
 
         Instance.m_SystemIntegrity = 0.0f;
-        OnSystemIntegrityChanged?.Invoke(Instance.m_SystemIntegrity);
+        OnSystemIntegrityChanged?.Invoke(Instance.m_SystemIntegrity / MAX_INTEGRITY);
 
         OnMainframeBroken?.Invoke();
     }

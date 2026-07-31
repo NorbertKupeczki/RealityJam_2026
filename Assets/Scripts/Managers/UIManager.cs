@@ -6,6 +6,7 @@ public class UIManager : MonoSingleton<UIManager>
     
     [Header("Game Over Panel")]
     [SerializeField] private GameOverPanel m_GameOverPanel;
+    [SerializeField] private GameOverPanel m_SecretWinPanel;
     
     protected override void Awake()
     {
@@ -35,6 +36,13 @@ public class UIManager : MonoSingleton<UIManager>
         m_GameOverPanel.StartGameOverSequence();
     }
 
+    private void HandleSecretWinScreen()
+    {
+        InputManager.Instance.SwitchToInputMap(InputManager.InputMaps.UI);
+
+        m_SecretWinPanel.StartGameOverSequence();
+    }
+
     private void PlaySubmitAudio()
     {
         //AudioManager.Instance.PlayOneShotAudio(
@@ -42,13 +50,13 @@ public class UIManager : MonoSingleton<UIManager>
         //    Camera.main.transform.position);
     }
 
-#if UNITY_EDITOR
+
     private void Update()
     {
         if (Keyboard.current.kKey.wasPressedThisFrame)
         {
-            HandleMainframeBroken();
+            HandleSecretWinScreen();
         }
     }
-#endif
+
 }

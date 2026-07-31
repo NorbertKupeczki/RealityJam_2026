@@ -7,6 +7,11 @@ public class SwitchButton : Usable
     [SerializeField] private Transform m_Switch;
     [Header("Terminal ID")]
     [SerializeField] private uint m_TerminalId;
+    [SerializeField] private TerminalUI m_TerminalUiCanvas;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip m_SwitchOnSfx;
+    [SerializeField] private AudioClip m_SwitchOffSfx;
 
     private Vector3 m_StartPosition;
     private Vector3 m_EndPosition;
@@ -31,6 +36,7 @@ public class SwitchButton : Usable
     protected override void Start()
     {
         base.Start();
+        m_TerminalUiCanvas.SetID(m_TerminalId + 1);
     }
 
     private void OnDestroy()
@@ -44,6 +50,8 @@ public class SwitchButton : Usable
 
         m_IsOn = !m_IsOn;
         m_CanBeInteracted = false;
+
+        AudioManager.PlayOneShotAudio(m_IsOn ? m_SwitchOnSfx : m_SwitchOffSfx, transform.position);
 
         m_Switch.transform.DOMove(m_IsOn? m_StartPosition : m_EndPosition, ANIMATION_DURATION)
             .SetEase(Ease.InOutSine)
