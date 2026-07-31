@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class SwitchButton : Usable
 {
+    [Header("Switch")]
+    [SerializeField] private Transform m_Switch;
+    [Header("Terminal ID")]
     [SerializeField] private uint m_TerminalId;
 
     private Vector3 m_StartPosition;
@@ -21,19 +24,17 @@ public class SwitchButton : Usable
         m_IsOn = true;
         m_CanBeInteracted = true;
 
-        m_StartPosition = transform.position;
+        m_StartPosition = m_Switch.transform.position;
         m_EndPosition = m_StartPosition + Vector3.down * m_MoveDistance;
     }
 
     protected override void Start()
     {
         base.Start();
-        ChallengeManager.OnBreakTerminal += HandleTerminalBreak;
     }
 
     private void OnDestroy()
-    {
-        ChallengeManager.OnBreakTerminal -= HandleTerminalBreak;
+    {        
         OnUse -= HandleOnUse;
     }
     
@@ -44,19 +45,12 @@ public class SwitchButton : Usable
         m_IsOn = !m_IsOn;
         m_CanBeInteracted = false;
 
-        transform.DOMove(m_IsOn? m_StartPosition : m_EndPosition, ANIMATION_DURATION)
+        m_Switch.transform.DOMove(m_IsOn? m_StartPosition : m_EndPosition, ANIMATION_DURATION)
             .SetEase(Ease.InOutSine)
             .OnComplete(() => { m_CanBeInteracted = true; }
             );
 
         if (!m_IsOn) { return; }
         ChallengeManager.TerminalIsReset(m_TerminalId);
-    }
-
-    private void HandleTerminalBreak(uint terminalId)
-    {
-        if (m_TerminalId != terminalId) { return; }
-        Debug.Log($"Terminal {m_TerminalId} is broken");
-    }
-    
+    }    
 }

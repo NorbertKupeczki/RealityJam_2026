@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ChallengeManager : MonoSingleton<ChallengeManager>
 {
-    public static event Action<uint> OnBreakTerminal;
     public static event Action<float> OnSystemIntegrityChanged;
     public static event Action<bool> OnTermialReset;
     public static event Action OnChallengeSuccessful;
@@ -67,6 +66,7 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
 
     private static void GenerateChallenge(int difficulty)
     {
+        Debug.Log("New Challenge");
         Instance.m_ChallengeQueue = new();
 
         for (int i = 0; i < difficulty; ++i)
@@ -82,7 +82,7 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
 
         foreach(var id in Instance.m_ChallengeQueue)
         {
-            Debug.Log(id);
+            Debug.Log(id + 1);
         }
     }
 

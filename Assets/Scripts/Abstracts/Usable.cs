@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Usable : MonoBehaviour, IInteractable
 {
+    [Header("Selected Object")]
     [SerializeField] protected GameObject m_SelectedObject;
     public event Action OnUse;
 

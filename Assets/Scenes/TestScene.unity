@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SelectedObject: {fileID: 1172453290}
+  m_Switch: {fileID: 119587015}
   m_TerminalId: 2
 --- !u!65 &119587012
 BoxCollider:
@@ -322,6 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SelectedObject: {fileID: 1073721339}
+  m_Switch: {fileID: 160281224}
   m_TerminalId: 4
 --- !u!65 &160281221
 BoxCollider:
@@ -446,6 +448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SelectedObject: {fileID: 1675456400}
+  m_Switch: {fileID: 516248092}
   m_TerminalId: 3
 --- !u!65 &516248089
 BoxCollider:
@@ -570,6 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SelectedObject: {fileID: 842660740}
+  m_Switch: {fileID: 579887463}
   m_TerminalId: 5
 --- !u!65 &579887460
 BoxCollider:
@@ -1237,6 +1241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SelectedObject: {fileID: 2141446714}
+  m_Switch: {fileID: 1781443597}
   m_TerminalId: 0
 --- !u!1001 &1783541703
 PrefabInstance:
@@ -1328,6 +1333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SelectedObject: {fileID: 2032844964}
+  m_Switch: {fileID: 1904443632}
   m_TerminalId: 1
 --- !u!65 &1904443629
 BoxCollider:
@@ -1448,6 +1454,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4acd007d0b069b249b375e0f491c39ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SystemIntegrity: 0
+  m_DegradationRate: 0
+  m_ChallengeSpawnTimer: 0
+  m_SystemDegradationOnPause: 0
 --- !u!4 &2023537327
 Transform:
   m_ObjectHideFlags: 0
