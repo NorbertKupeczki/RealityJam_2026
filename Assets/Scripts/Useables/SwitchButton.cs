@@ -16,7 +16,7 @@ public class SwitchButton : Usable
     private Vector3 m_StartPosition;
     private Vector3 m_EndPosition;
 
-    private float m_MoveDistance = 0.25f;
+    private float m_MoveDistance = 0.35f;
 
     private bool m_IsOn;
     private bool m_CanBeInteracted;
