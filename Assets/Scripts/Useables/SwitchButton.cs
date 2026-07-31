@@ -13,6 +13,8 @@ public class SwitchButton : Usable
     private bool m_IsOn;
     private bool m_CanBeInteracted;
 
+    private const float ANIMATION_DURATION = 0.1f;
+
     private void Awake()
     {
         OnUse += HandleOnUse;
@@ -42,7 +44,7 @@ public class SwitchButton : Usable
         m_IsOn = !m_IsOn;
         m_CanBeInteracted = false;
 
-        transform.DOMove(m_IsOn? m_StartPosition : m_EndPosition, 0.2f)
+        transform.DOMove(m_IsOn? m_StartPosition : m_EndPosition, ANIMATION_DURATION)
             .SetEase(Ease.InOutSine)
             .OnComplete(() => { m_CanBeInteracted = true; }
             );

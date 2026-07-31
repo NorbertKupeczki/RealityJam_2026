@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (!m_IsGrounded)
             {
-                Debug.Log("Land");
+                //Debug.Log("Land");
                 //AudioManager.Instance.PlayOneShotAudio(
                 //    AudioLibrary.Instance.PlayerLands,
                 //    m_Camera.transform.position);
@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
     private void HandleJump()
     {
         if (!m_IsGrounded) return;
-        Debug.Log("Jump");
+        //Debug.Log("Jump");
         //AudioManager.Instance.PlayOneShotAudio(
         //    AudioLibrary.Instance.PlayerJump,
         //    m_Camera.transform.position);
