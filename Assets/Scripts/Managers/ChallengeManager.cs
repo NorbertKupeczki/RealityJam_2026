@@ -7,6 +7,7 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
     public static event Action<float> OnSystemIntegrityChanged;
     public static event Action<bool> OnTermialReset;
     public static event Action OnChallengeSuccessful;
+    public static event Action OnMainframeBroken;
 
     [Header("System Integrity")]
     [SerializeField] private float m_SystemIntegrity;
@@ -123,7 +124,8 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
 
         Instance.m_SystemIntegrity = 0.0f;
         OnSystemIntegrityChanged?.Invoke(Instance.m_SystemIntegrity);
-        // GAME OVER
+
+        OnMainframeBroken?.Invoke();
     }
 
     private static void TrySpawnNewChallenge()

@@ -1,22 +1,25 @@
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverPanel : MonoBehaviour
 {
     [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] private CanvasGroup m_GameOverText;
-    [SerializeField] private CanvasGroup m_OutOfBatteryText;
+    [SerializeField] private CanvasGroup m_YouLetTheMainframeBreakText;
     [SerializeField] private Button m_ExitButton;
+    [SerializeField] private Button m_TryAgainButton;
 
     private void Start()
     {
-        m_ExitButton.onClick.AddListener(HandleExitButton);
+        m_ExitButton.onClick.AddListener(HandleMainMenuButton);
+        m_TryAgainButton.onClick.AddListener(HandleTryAgainButton);
         m_CanvasGroup.alpha = 0.0f;
         m_GameOverText.alpha = 0.0f;
-        m_OutOfBatteryText.alpha = 0.0f;
+        m_YouLetTheMainframeBreakText.alpha = 0.0f;
         m_ExitButton.gameObject.SetActive(false);
+        m_TryAgainButton.gameObject.SetActive(false);
         
         gameObject.SetActive(false);
     }
@@ -38,25 +41,32 @@ public class GameOverPanel : MonoBehaviour
             .SetDelay(1.0f)
             .OnComplete(() =>
             {
-                ShowOutOfBatteryText();
+                ShowMainframeBrokenText();
             });
     }
 
-    private void ShowOutOfBatteryText()
+    private void ShowMainframeBrokenText()
     {
-        m_OutOfBatteryText.DOFade(1.0f, 1.5f)
+        m_YouLetTheMainframeBreakText.DOFade(1.0f, 1.5f)
             .SetDelay(1.0f)
             .OnComplete(() =>
             {
                 m_ExitButton.gameObject.SetActive(true);
+                m_TryAgainButton.gameObject.SetActive(true);
                 m_ExitButton.Select();
             });
     }
     
-    private void HandleExitButton()
+    private void HandleMainMenuButton()
     {
         Time.timeScale = 1;
         Loader.LoadScene(Loader.Scenes.MainMenu);
+    }
+
+    private void HandleTryAgainButton()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
     }
     
 }

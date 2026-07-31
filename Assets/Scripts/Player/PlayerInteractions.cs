@@ -146,7 +146,7 @@ public class PlayerInteractions : MonoBehaviour
                 if (chargeable.IsFullyCharged)
                 {
                     m_SignalInteraction?.Invoke(false, GameEnums.InteractionType.None);
-                    UIManager.Instance.ToggleAuxiliaryText(true, Chargeable.FULLY_CHARGED);
+                    //UIManager.Instance.ToggleAuxiliaryText(true, Chargeable.FULLY_CHARGED);
                 }
                 break;
             }
@@ -156,7 +156,7 @@ public class PlayerInteractions : MonoBehaviour
                 station.DepositItem(m_HeldItem);
                 m_HeldItem = null;
                 m_SignalInteraction?.Invoke(false, GameEnums.InteractionType.None);
-                UIManager.Instance.ToggleAuxiliaryText(false);
+                //UIManager.Instance.ToggleAuxiliaryText(false);
                 break;
             }
                 
