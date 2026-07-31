@@ -8,29 +8,32 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] private CanvasGroup m_GameOverText;
     [SerializeField] private CanvasGroup m_YouLetTheMainframeBreakText;
-    [SerializeField] private Button m_ExitButton;
-    [SerializeField] private Button m_TryAgainButton;
+
+    private bool m_IsGameOver;
 
     private void Start()
     {
-        m_ExitButton.onClick.AddListener(HandleMainMenuButton);
-        m_TryAgainButton.onClick.AddListener(HandleTryAgainButton);
         m_CanvasGroup.alpha = 0.0f;
         m_GameOverText.alpha = 0.0f;
         m_YouLetTheMainframeBreakText.alpha = 0.0f;
-        m_ExitButton.gameObject.SetActive(false);
-        m_TryAgainButton.gameObject.SetActive(false);
-        
+
+        m_IsGameOver = false;
         gameObject.SetActive(false);
     }
     
     public void StartGameOverSequence()
     {
+        if(m_IsGameOver) { return; }
+        m_IsGameOver = true;
+
+        Debug.Log("GameOver");
         gameObject.SetActive(true);
         
         m_CanvasGroup.DOFade(1.0f, 1.5f)
             .OnComplete(() =>
             {
+                m_CanvasGroup.interactable = true;
+                m_CanvasGroup.blocksRaycasts = true;
                 ShowGameOverText();
             });
     }
@@ -51,22 +54,15 @@ public class GameOverPanel : MonoBehaviour
             .SetDelay(1.0f)
             .OnComplete(() =>
             {
-                m_ExitButton.gameObject.SetActive(true);
-                m_TryAgainButton.gameObject.SetActive(true);
-                m_ExitButton.Select();
+                m_GameOverText.DOFade(1.0f, 5.0f).OnComplete(BackToMainMenu);
             });
     }
     
-    private void HandleMainMenuButton()
+    private void BackToMainMenu()
     {
+        Debug.Log("BackToMain");
         Time.timeScale = 1;
         Loader.LoadScene(Loader.Scenes.MainMenu);
-    }
-
-    private void HandleTryAgainButton()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(1);
     }
     
 }

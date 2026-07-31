@@ -43,12 +43,12 @@ public class ChallengeManager : MonoSingleton<ChallengeManager>
         Instance.m_SystemIntegrity = MAX_INTEGRITY;
         Instance.m_IsChallengeActive = false;
         Instance.m_ChallengeSpawnTimer = CHALLENGE_SUCCESS_DELAY;
+
+        DOTween.SetTweensCapacity(4000, 100);
     }
 
     private void Update()
     {
-        DOTween.SetTweensCapacity(4000, 100);
-
         ApplyDegradation();
         TrySpawnNewChallenge();
     }

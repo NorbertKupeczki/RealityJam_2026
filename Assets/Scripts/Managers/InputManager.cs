@@ -157,9 +157,9 @@ public class InputManager : MonoSingleton<InputManager>
         }
     }
 
-    public void ToggleLockCursor(bool toggle)
-    {
-        Cursor.lockState = toggle ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !toggle;
-    }
+    //public void ToggleLockCursor(bool toggle)
+    //{
+    //    Cursor.lockState = toggle ? CursorLockMode.Locked : CursorLockMode.None;
+    //    Cursor.visible = !toggle;
+    //}
 }
